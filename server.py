@@ -9,9 +9,16 @@ import os
 app = Flask(__name__)
 bootStarp = Bootstrap(app)
 
+
 @app.route('/index')
-def hello_world():
+def index():
     return render_template('index.html')
+
+
+@app.route('/model_select')
+def model_select():
+    return render_template('model.html')
+
 
 @app.route('/fileupload/pcapfile', methods=['POST', 'GET'])
 def upload():
@@ -20,7 +27,7 @@ def upload():
         basepath = os.path.dirname(__file__)
         upload_path = os.path.join(basepath, 'static/uploads', secure_filename(f.filename))
         f.save(upload_path)
-        return redirect(url_for('upload'))
+        return redirect(url_for('index'))
     return render_template('index.html')
 
 if __name__ == '__main__':
