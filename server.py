@@ -23,6 +23,9 @@ def miss(e):
 def index():
     return render_template('index.html')
 
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 @app.route('/model_select')
 def model_select():

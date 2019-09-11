@@ -1,0 +1,53 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>专业产品-中国天气网</title>
+    <link type="text/css" href="static/css/wheel_planting.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+</head>
+
+<body>
+    <div style="min-height:1000px">
+        <!-- 主体部分 start -->
+        <div class="mainContent">
+            <div class="contentBg">
+                <!-- 右边内容部分 start -->
+                <div class="rightContent">
+                    <!-- 雷达图展示 start-->
+                    <div class="picContent">
+                        <a target="_blank">
+                            <img src="static/pngs/k=50-pkt100.png" class="showImg" style="width:800px;height:600px;"></a>
+                        <a target="_blank">
+                            <img src="static/pngs/k=50-pkt500.png" style="width:800px;height:600px;"></a>
+                        <a target="_blank">
+                            <img src="static/pngs/k-5-200-100byte.png" style="width:800px;height:600px;"></a>
+                        <a target="_blank">
+                            <img src="static/pngs/k-5-200-60bytes.png" style="width:800px;height:600px;"></a>
+                    </div>
+                    <!-- 雷达图展示 end-->
+                    <!-- 控制台 begin-->
+                    <div class="playDiv">
+<!--                        <div class="btnDiv imgBtns playBtn" id="playBtn"></div>-->
+<!--                        <div class="btnDiv imgBtns stopBtn dis"></div>-->
+                        <div class="playStaLi playStaLi03">
+                            <!-- 如果是数值产品和实验应用产品 -->
+                            <!-- 控制台文字 -->
+                            <div class="infoDiv " style="width:68px;text-align:center;">24小时</div>
+                            <!-- 控制台按钮 -->
+                            <div id="btn_group" style="overflow:hidden">
+                                <a class="cur" data-type="0"></a>
+                                <a data-type="1"></a>
+                                <a data-type="2"></a>
+                                <a data-type="3"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 右边内容部分 end -->
+            </div>
+        </div>
+        <!--主体部分end-->
+        <!--轮播-->
+        <script type="text/javascript" src="static/js/wheel_planting.js"></script>
+    </div>
+</body>
+</html>
