@@ -4,10 +4,9 @@ var ELE = {
     btn_play: $("#playBtn"),
     info: $(".infoDiv")
 };
-
-var TIMEMSG = ['24小时', '48小时', '72小时'];
-var SETTIME = 500;
-var PLAY = true;
+var TIMEMSG = ['1000pkt 聚类图', '不同k值得的inertia值', 'feature 聚类图'];
+var SETTIME = 3000;
+var PLAY = false;
 
 function swiper(num) {
     //1变换图片
@@ -30,7 +29,7 @@ function play(num) {
 
     swiper(n);
     n++;
-    if (n >= 4) {
+    if (n >= 3) {
         setTimeout(function() {
             swiper(0);
             ELE.btn_play.removeClass('stopBtn').addClass('playBtn');

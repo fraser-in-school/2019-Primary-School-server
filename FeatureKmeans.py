@@ -1,4 +1,7 @@
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
 from sklearn.metrics import silhouette_score  # 引入评价函数
+from sklearn.decomposition import PCA
 from sklearn.decomposition import PCA
 import os
 import pandas as pd
@@ -35,7 +38,7 @@ class FeatureKmeans:
                 filePath = os.path.join(self.dataPath, file)
                 pcap.read_packet(filePath, 100)
             j += 1
-            if j >= 20:
+            if j >= 10:
                 break
         self.trainSet = pcap.get_DataFrame()
 
@@ -57,12 +60,26 @@ class FeatureKmeans:
 def test():
     f_kmeans = FeatureKmeans()
     max = -1
-    for k in range(5, 35, 3):
-        f_kmeans.train(k)
+    # for k in range(5, 35, 3):
+    #     f_kmeans.train(k)
+    #     module = f_kmeans.get_module()
+    #     score = silhouette_score(f_kmeans.get_train_set(), module.labels_)
+    #     if score > max:
+    #         joblib.dump(module, './module/feature-k=' + str(k) + '.pkl')
+
+    k = []
+    score = []
+    for i in range(35, 200, 5):
+        f_kmeans.train(i)
         module = f_kmeans.get_module()
-        score = silhouette_score(f_kmeans.get_train_set(), module.labels_)
-        if score > max:
-            joblib.dump(module, './module/feature-k=' + str(k) + '.pkl')
+        s = silhouette_score(f_kmeans.get_train_set(), module.labels_)
+        k.append(i)
+        score.append(score)
+    plt.scatter(k, score)
+    plt.plot(k, score)
+    plt.xlabel("k")
+    plt.ylabel("distance")
+    plt.show()
 
 
 test()

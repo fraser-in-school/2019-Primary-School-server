@@ -20,33 +20,60 @@ bootStarp = Bootstrap(app)
 def miss(e):
     return render_template('pages-error-404.html'), 404
 
+
 @app.route('/index')
 def index():
     return render_template('index.html')
+
 
 @app.route('/home')
 def home():
     return render_template('home.html')
 
-@app.route('/model_select')
+
+@app.route('/hello')
+def hello():
+    return render_template('hello.html')
+
+
+@app.route('/result')
 def model_select():
-    return render_template('model.html')
+    labels = ['pktNum', 'type']
+    content = [
+        [0, 35],
+        [1, 40]
+    ]
+    return render_template('result.html', labels=labels, content=content)
 
 
-@app.route('/fileupload/pcapfile', methods=['POST', 'GET'])
+@app.route('/fileupload', methods=['POST', 'GET'])
 def upload():
     result = ['failed']
+    labels = ['pktNum', 'type']
+    content = []
     if request.method == 'POST':
         f = request.files['file']
-        basepath = os.path.dirname(__file__)
-        upload_path = os.path.join(basepath, 'static/uploads', secure_filename(f.filename))
-        f.save(upload_path)
-        result = binary_module(upload_path).tolist()
-        return jsonify(result)
-    return jsonify(result)
+        module_name = request.form['module']
+        if module_name == 'feature':
+            basepath = os.path.dirname(__file__)
+            upload_path = os.path.join(basepath, 'static/uploads', secure_filename(f.filename))
+            f.save(upload_path)
+            result = feature_module(upload_path).tolist()
+
+        elif module_name == 'binary':
+            basepath = os.path.dirname(__file__)
+            upload_path = os.path.join(basepath, 'static/uploads', secure_filename(f.filename))
+            f.save(upload_path)
+            result = binary_module(upload_path).tolist()
+
+        for i in range(0, 100):
+            content.append([i, result[i]])
+
+        return render_template('result.html', labels=labels, content=content)
+    return jsonify(result[0])
 
 
-def binary_module(file, module='./module/500-0.pkl'):
+def binary_module(file, module='./module/pkt=1000.pkl'):
     km = joblib.load(module)
     _pcap = Pcap()
     _gen = _pcap.parse(file)
@@ -67,14 +94,19 @@ def binary_module(file, module='./module/500-0.pkl'):
             break
     return km.predict(pd.DataFrame(testData))
 
-def feature_module(file, module='./module/f_kmeans.pkl'):
+
+def feature_module(file, module='./module/feature-k=32.pkl'):
     km = joblib.load(module)
     _pcap = PcapFeature()
     _pcap.read_packet(file)
     testData = _pcap.get_DataFrame()
     return km.predict(testData)
 
+
 if __name__ == '__main__':
-    # app.run()
-    print(feature_module('./testData/email2a.pcap'))
+    try:
+        app.run()
+    except():
+        pass
+    # print(feature_module('./testData/email2a.pcap'))
 

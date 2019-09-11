@@ -38,7 +38,7 @@ class BinaryKmeans:
                 self.read_packet(filePath, 500)
 
     # 读取单个文件里面的前100个packet
-    def read_packet(self, file, pktNum=500, byteNum=100):
+    def read_packet(self, file, pktNum=1000, byteNum=100):
         _pcap = Pcap()
         _gen = _pcap.parse(file)
         i = 0
@@ -62,7 +62,9 @@ class BinaryKmeans:
     def train(self, k):
         self.module = KMeans(n_clusters=k, n_jobs=-1)
         self.module.fit(self.get_train_set())
-        joblib.dump(self.module, './module/500-1.pkl')
+
+    def save_module(self, filename):
+        joblib.dump(self.module, filename)
 
     def get_module(self):
         return self.module
