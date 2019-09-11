@@ -10,6 +10,7 @@ from sklearn.externals import joblib
 from pcap.proc.pcap import Pcap
 import os
 import pandas as pd
+from PcapFeature import PcapFeature
 
 app = Flask(__name__)
 bootStarp = Bootstrap(app)
@@ -40,18 +41,13 @@ def upload():
         basepath = os.path.dirname(__file__)
         upload_path = os.path.join(basepath, 'static/uploads', secure_filename(f.filename))
         f.save(upload_path)
-        result = load_module(upload_path).tolist()
-        res = {}
-        res['data'] = result
-        res['status'] = 200
-        print(result)
-        print(type(result))
+        result = binary_module(upload_path).tolist()
         return jsonify(result)
     return jsonify(result)
 
 
-def load_module(file, module=None):
-    km = joblib.load('./module/500-0.pkl')
+def binary_module(file, module='./module/500-0.pkl'):
+    km = joblib.load(module)
     _pcap = Pcap()
     _gen = _pcap.parse(file)
     i = 0
@@ -71,7 +67,14 @@ def load_module(file, module=None):
             break
     return km.predict(pd.DataFrame(testData))
 
+def feature_module(file, module='./module/f_kmeans.pkl'):
+    km = joblib.load(module)
+    _pcap = PcapFeature()
+    _pcap.read_packet(file)
+    testData = _pcap.get_DataFrame()
+    return km.predict(testData)
 
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    print(feature_module('./testData/email2a.pcap'))
 
